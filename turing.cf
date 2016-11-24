@@ -1,0 +1,96 @@
+V10/Berkeley
+
+# turing machine - starting point, converts input into internal rep. and
+#		starts at the first state of substraction machine
+StStart
+R$*		$: $>tInput $1
+R$*		$@ $>tPass $1
+
+# turing machine - move the tape right
+StR
+RN  ! N  ! $* M $*		$@ $1 ! N  ! $2
+RN  ! N  ! $*		$@ $1 ! N  ! N
+R$* ! N  ! $* M $*		$@ $2 ! $1 ! $3
+R$* ! N  ! $*		$@ $2 ! $1 ! N
+R$* ! $* ! $* M $*		$@ $3 ! $1 M $2 ! $4
+R$* ! $* ! $*		$@ $3 ! $1 M $2 ! N
+
+# turing machine - move the tape left
+StL
+R$* ! $* M $* ! $*		$@ $2 ! $3 ! $1 M $4
+RN  ! N  ! $*		$@ N  ! N  ! $1
+R$* ! N  ! $*		$@ N  ! N  ! $1 M $2
+R$* ! $* ! $*		$@ $2 ! N  ! $1 M $3
+
+# turing machine - convert input of the form X X X X to internal
+#		tape representation
+StInput
+R$- $*		$@ $1 ! N ! $>tAddMark $2
+
+StAddMark
+R$- $+		$@ $1 M $>tAddMark $2
+
+# turing machine - convert internal tape representation to the form
+#		X X X X
+StOutput
+R$* ! $* ! $*		$: $1 ! $3 ! $>tReverse $2 S
+R$* ! $* ! $*		$: $1 ! $2 ! $>tStripMark $3
+R$* ! $* ! $*		$: $1 ! $3 ! $>tStripMark $2
+R$* ! $* ! $*		$@ $2 $1 $3
+
+StReverse
+R$- S		$@ $1
+R$* M $* M $- S $+		$@ $>tReverse $2 M $3 S $1 M $4
+R$* M $* M $- S		$@ $>tReverse $2 M $3 S $1
+R$* M $* S $+		$@ $2 M $1 M $3
+R$* M $* S		$@ $2 M $1
+
+StStripMark
+R$* M $+		$@ $>tStripMark $1 $2
+
+# state machine for doing subtraction
+
+# turing machine - go past the initial 1's
+StPass
+R1 $*		$@ $>tPassMatchOne 1 $1
+R0 $*		$@ $>tPassMatchZero 0 $1
+
+StPassMatchOne
+R$*		$: $>tR $1
+R$*		$@ $>tPass $1
+
+StPassMatchZero
+R$*		$: $>tR $1
+R$*		$@ $>tFind2nd $1
+
+# turing machine - find the start of the 2nd number, chop off a 1, and
+#		reverse direction
+StFind2nd
+R0 $*		$@ $>tFind2ndMatchZero 0 $1
+R1 $*		$@ $>tFind2ndMatchOne 0 $1
+RN $*		$@ $>tFind2ndMatchBlank N $1
+
+StFind2ndMatchZero
+R$*		$: $>tR $1
+R$*		$@ $>tFind2nd $1
+
+StFind2ndMatchOne
+R$*		$: $>tL $1
+R$*		$@ $>tDelete $1
+
+StFind2ndMatchBlank
+R$*		$: $>tL $1
+R$*		$@ $>tOutput $1
+
+# turing machine - reverse the tape till you find a 1, and delete it
+StDelete
+R0 $*		$@ $>tDeleteMatchZero 0 $1
+R1 $*		$@ $>tDeleteMatchOne 0 $1
+
+StDeleteMatchZero
+R$*		$: $>tL $1
+R$*		$@ $>tDelete $1
+
+StDeleteMatchOne
+R$*		$: $>tR $1
+R$*		$@ $>tFind2nd $1
