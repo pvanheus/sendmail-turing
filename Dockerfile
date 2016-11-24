@@ -5,7 +5,7 @@ FROM ubuntu:16.04
 # http://bit.ly/sendmail-turing
 
 # to demo (compute 2 - 1):
-# tStart 1 1 0 1 
+# tStart 1 1 0 1
 
 MAINTAINER Peter van Heusden <pvh@sanbi.ac.za>
 
@@ -17,4 +17,9 @@ RUN set -e && \
 
 COPY turing.cf /etc/mail/sendmail.cf
 
-CMD /usr/lib/sendmail -bt
+# run script to be used by Singularity container
+# runs /usr/lib/sendmail -bt
+COPY singularity.sh /singularity
+RUN chmod a+x /singularity
+
+CMD /singularity
