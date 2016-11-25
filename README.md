@@ -6,7 +6,7 @@ More info is archived in [comp.mail.sendmail](http://bit.ly/sendmail-turing).
 Unfortunately, setting up Sendmail is hard work for some, so now you can experiment with the
 code encapsulated in Docker. To run it do:
 
-    docker run -i -t pvanheus/sendmail-turing:latest
+    docker run --net=none -i -t pvanheus/sendmail-turing:latest
 
 You'll get a prompt like:
 
@@ -31,3 +31,9 @@ see [here](https://apocalisp.wordpress.com/2010/06/16/type-level-programming-in-
 the succeeding posts [here](https://apocalisp.wordpress.com/2010/06/17/type-level-programming-in-scala-part-4b-comparing-peano-numbers/),
 [here](https://apocalisp.wordpress.com/2010/06/21/type-level-programming-in-scala-part-4c-general-recursion-on-peano-numbers/) and
 finally [here](https://apocalisp.wordpress.com/2010/06/21/type-level-programming-in-scala-part-4d-peano-arithmetic/).
+
+And in case you want to use this with [Singularity](http://singularity.lbl.gov/), here is a [Singularity image](https://drive.google.com/file/d/0By2-i8xoBou_V0pEbVZlT19vdXc/view?usp=sharing). So you can go:
+
+    singularity run sendmail-turing.img
+
+(and wait a while for it to start, then use as above)
