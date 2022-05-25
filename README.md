@@ -2,7 +2,7 @@
 
 In September 1998 I wrote a [Turing machine](https://en.wikipedia.org/wiki/Turing_machine)
 simulator in [Sendmail](https://en.wikipedia.org/wiki/Sendmail).
-More info is archived in [comp.mail.sendmail](http://bit.ly/sendmail-turing).
+More info is archived in [comp.mail.sendmail](https://web.archive.org/web/20220525174616/https://groups.google.com/g/comp.mail.sendmail/c/ezncnx9y848/m/cAyV8RLIvfcJ).
 Unfortunately, setting up Sendmail is hard work for some, so now you can experiment with the
 code encapsulated in Docker. To run it do:
 
